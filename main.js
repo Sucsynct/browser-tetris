@@ -3,50 +3,52 @@ var ctx = canvas.getContext('2d');
 var width = canvas.width = 240;
 var height = canvas.height = 400;
 var offset = {};
+var player;
 
-const blocks = {
-  I_block: [
+const blocks = [
+  [
     [1, 0, 0, 0],
     [1, 0, 0, 0],
     [1, 0, 0, 0],
     [1, 0, 0, 0]
   ],
-  J_block: [
+  [
     [0, 1, 0],
     [0, 1, 0],
     [1, 1, 0]
   ],
-  L_block: [
+  [
     [1, 0, 0],
     [1, 0, 0],
     [1, 1, 0]
   ],
-  O_block: [
+  [
     [0, 0, 0],
     [1, 1, 0],
     [1, 1, 0]
   ],
-  Z_block: [
+  [
     [0, 0, 0],
     [1, 1, 0],
-    [0, 1, 1]
+    [0, 1, 1],
+    [0, 0, 0]
   ],
-  T_block: [
+  [
     [0, 0, 0],
     [0, 1, 0],
     [1, 1, 1]
   ],
-  S_block: [
+  [
     [0, 0, 0],
     [0, 1, 1],
-    [1, 1, 0]
+    [1, 1, 0],
+    [0, 0, 0]
   ]
-};
+];
 
 function Player(matrix, offset) {
-  let x = canvas.width/2;
-  this.x = x + offset.x
-  this.y = 0 + offset.y
+  this.x = canvas.width/2 + offset.x;
+  this.y = 0 + offset.y;
   this.matrix = matrix;
 }
 
@@ -60,20 +62,29 @@ function drawMatrix(matrix) {
     })
   });
 }
+// FIXME: rotate function accessing non-existent indices
+function rotateMatrix(matrix) {
+  let n = 3;
+  matrix.forEach((row, y) => {
+    row.forEach((state, col) => {
+      let newCol = row;
+      let newRow = row + (n - row);
+      state = 0;
+      matrix[newRow][newCol] = 1;
+    })
+  })
+}
+
 
 function draw() {
   requestAnimationFrame(draw);
   ctx.fillStyle = '#000000';
   ctx.fillRect(0, 0, width, height);
-  drawMatrix(blocks.J_block);
+  drawMatrix(player.matrix);
 }
 
 function playerDrop() {
   offset.y++;
-}
-
-function rotateMatrix(matrix) {
-
 }
 
 
@@ -84,6 +95,10 @@ function initialiseGame() {
 
   offset.x = 0;
   offset.y = 0;
+
+  let randomMatrix = Math.floor((Math.random() * (blocks.length - 1)) + 1);
+  player = new Player(blocks[randomMatrix], offset);
+
   window.onkeydown = e => {
     switch (e.key) {
       case 'ArrowLeft':
@@ -94,6 +109,10 @@ function initialiseGame() {
         break;
       case 'ArrowDown':
         playerDrop();
+        break;
+      case 'ArrowUp':
+        rotateMatrix(player.matrix);
+        console.log('Rotate!');
         break;
     }
   };
