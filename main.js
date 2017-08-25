@@ -11,9 +11,9 @@ const testMatrix = [
 ];
 
 function Player(x, y, matrix, offset) {
-  player.x = x + offset.x
-  player.y = y + offset.y
-  player.matrix = matrix;
+  this.x = x + offset.x
+  this.y = y + offset.y
+  this.matrix = matrix;
 }
 
 function drawMatrix(matrix) {
