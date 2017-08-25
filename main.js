@@ -6,10 +6,10 @@ var offset = {};
 
 const blocks = {
   I_block: [
-    [0, 1, 0],
-    [0, 1, 0],
-    [0, 1, 0],
-    [0, 1, 0]
+    [1, 0, 0, 0],
+    [1, 0, 0, 0],
+    [1, 0, 0, 0],
+    [1, 0, 0, 0]
   ],
   J_block: [
     [0, 1, 0],
@@ -17,9 +17,9 @@ const blocks = {
     [1, 1, 0]
   ],
   L_block: [
-    [0, 1, 0],
-    [0, 1, 0],
-    [0, 1, 1]
+    [1, 0, 0],
+    [1, 0, 0],
+    [1, 1, 0]
   ],
   O_block: [
     [0, 0, 0],
@@ -72,6 +72,11 @@ function playerDrop() {
   offset.y++;
 }
 
+function rotateMatrix(matrix) {
+
+}
+
+
 function initialiseGame() {
   ctx.scale(10, 10);
   ctx.fillStyle = '#000000';
@@ -79,7 +84,7 @@ function initialiseGame() {
 
   offset.x = 0;
   offset.y = 0;
-  window.onkeydown = function(e) {
+  window.onkeydown = e => {
     switch (e.key) {
       case 'ArrowLeft':
         offset.x--;
