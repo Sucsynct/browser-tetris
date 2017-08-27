@@ -62,17 +62,24 @@ function drawMatrix(matrix) {
     })
   });
 }
-// FIXME: rotate function accessing non-existent indices
+
 function rotateMatrix(matrix) {
-  let n = 3;
-  matrix.forEach((row, y) => {
-    row.forEach((state, col) => {
-      let newCol = row;
-      let newRow = row + (n - row);
-      state = 0;
-      matrix[newRow][newCol] = 1;
-    })
-  })
+  let dupeCols = matrix.length;
+  let dupeRows = matrix[0].length;
+  let dupe = [];
+
+  for (var i = 0; i < dupeCols; i++) {
+    dupe[i] = [];
+    for (var j = 0; j < dupeRows; j++) {
+      dupe[i][j] = 0;
+    }
+  }
+  for (var y = 0; y < matrix.length; y++) {
+    for (var x = 0; x < matrix[0].length; x++) {
+      dupe[x][(dupeRows-1)-y] = matrix[y][x];
+    }
+  }
+  return dupe;
 }
 
 
@@ -111,7 +118,7 @@ function initialiseGame() {
         playerDrop();
         break;
       case 'ArrowUp':
-        rotateMatrix(player.matrix);
+        player.matrix = rotateMatrix(player.matrix);
         console.log('Rotate!');
         break;
     }
