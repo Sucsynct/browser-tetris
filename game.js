@@ -1,5 +1,5 @@
 function Game(context, player, width, height) {
-  this.context = context;
+  this.ctx = context;
   this.player = player;
   this.width = width;
   this.height = height
@@ -32,4 +32,11 @@ Game.prototype.initialise = function() {
   setInterval(function() {
     this.player.playerDrop();
   }, 1000);
+}
+
+Game.prototype.draw = function() {
+  requestAnimationFrame(Game.prototype.draw);
+  this.ctx.fillStyle = '#000000';
+  this.ctx.fillRect(0, 0, width, height);
+  this.player.block.draw(this.player.offset);
 }
